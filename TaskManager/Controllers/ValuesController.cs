@@ -4,37 +4,56 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using DAL;
+using Service;
 
 namespace TaskManager.Controllers
 {
     [Authorize]
     public class ValuesController : ApiController
     {
+        QuoteService qs = new QuoteService();
         // GET api/values
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public IEnumerable<tblQuote> Get()
         {
-            return new string[] { "value1", "value2" };
+            return qs.GetallQuotes();
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public tblQuote Get(int id)
         {
-            return "value";
+            return qs.GetbyID(id);
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]tblQuote quote)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data input");
+            }
+            qs.insert(quote);
+            return Ok();
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]tblQuote quote)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data input");
+            }
+            qs.update(id,quote);
+            return Ok();
         }
+
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            tblQuote item = Get(id);
+            qs.delete(item);
         }
     }
 }
