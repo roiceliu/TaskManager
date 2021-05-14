@@ -36,24 +36,16 @@ namespace Service
 
         //check if the entity is valid or not 
         public void update(int id, tblQuote item)
-        {
-            if (item == null)
+        { 
+            var entry = GetbyID(id);
+            if(entry == null)
             {
-                throw new InvalidOperationException("invalid entity");
+                throw new InvalidOperationException("Quote ID doesnt exist");
             }
+            //assemble the id correctly and send down
+            item.QuoteID = id;
 
-            //var entry = GetbyID(id);
-        //    if(entry == null)
-        //    {
-        //        var response = newHttpResponseMessage(HttpStatusCode.NotFound)
-        //{
-        //            Content = newStringContent(string.Format("No Employee found with ID = {0}", key)),  
-        //        ReasonPhrase = "Employee Not Found"
-        //};
-
-        //        thrownew HttpResponseException(response);
-        //    }
-            uow.QuoteRepo.Update(item);
+            uow.QuoteRepo.Update(id, item);
         }
 
         public void delete(tblQuote item)
