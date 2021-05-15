@@ -15,7 +15,7 @@ namespace Repository
         IEnumerable<TEntity> GetAll();
         void Insert(TEntity entity);
         void Delete(TEntity entity);
-        void Update(TEntity entity);
+        void Update(int id,TEntity entity);
         
     }
     public class GenericRepo<TEntity>: IGenericRepo<TEntity> where TEntity:class 
@@ -49,10 +49,14 @@ namespace Repository
         }
 
         
-        public void Update(TEntity entity)
-        {  
-            set.Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
+        public void Update(int id, TEntity entity)
+        {
+            var item = GetByID(id);
+            if (item == null)
+            {
+                throw new InvalidOperationException("Unable to update: Entry doesn't exist");
+            }
+            context.Entry(item).CurrentValues.SetValues(entity);
             context.SaveChanges();
         }
     }
