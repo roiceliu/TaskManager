@@ -7,10 +7,12 @@ using System.Web.Http;
 using DAL;
 using Service;
 using TaskManager.Models;
+using TaskManager.Filters;
 
 namespace TaskManager.Controllers
 {
     [Authorize]
+    [CustomExceptionFilter]
     public class ValuesController : ApiController
     {
         QuoteService qs = new QuoteService();
