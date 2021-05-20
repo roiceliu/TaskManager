@@ -14,6 +14,7 @@ namespace DAL
     
     public partial class tblQuote
     {
+        
         public int QuoteID { get; set; }
         public string QuoteType { get; set; }
         public string Contact { get; set; }
