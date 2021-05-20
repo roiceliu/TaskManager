@@ -12,6 +12,9 @@ namespace TaskManager
     {
         public static void Register(HttpConfiguration config)
         {
+            //enable CORS between clients & server
+            config.EnableCors();
+
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
